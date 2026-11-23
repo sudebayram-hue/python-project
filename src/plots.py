@@ -83,3 +83,32 @@ def plot_monthly_heatmap(data, city, save_as=None):
     if save_as:
         save_figure(fig, save_as)
     return fig
+
+
+def plot_hot_days(hot_days, save_as=None):
+    """Plot the average number of hot days per year in each decade.
+
+    Parameters:
+        hot_days: table returned by count_hot_days (DataFrame)
+        save_as: optional path of a PNG file where the plot is saved (str)
+
+    Returns:
+        The matplotlib figure.
+    """
+    table = hot_days.copy()
+    table["decade"] = table["year"] // 10 * 10
+
+    average = table.pivot_table(
+        index="decade", columns="city", values="hot_days", aggfunc="mean"
+    )
+
+    ax = average.plot(kind="bar", figsize=(10, 5))
+    ax.set_title("Hot days per year (maximum temperature above 30 °C)")
+    ax.set_xlabel("Decade")
+    ax.set_ylabel("Average number of days per year")
+    ax.tick_params(axis="x", rotation=0)
+
+    fig = ax.get_figure()
+    if save_as:
+        save_figure(fig, save_as)
+    return fig
