@@ -70,6 +70,10 @@ three cities.
 
 ![Temperature anomaly](figures/anomalies.png)
 
+Hot days (maximum temperature above 30 °C) became much more frequent: in 2011-2025 Milan has about 31 hot days per year, against about 8 in 1961-1990.
+
+![Hot days](figures/hot_days.png)
+
 ## Libraries
 
 pandas, numpy, matplotlib, requests (see `requirements.txt` for versions). 
