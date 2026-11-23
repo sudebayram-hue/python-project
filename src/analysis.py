@@ -49,3 +49,19 @@ def temperature_trend(summary, city):
     city_data = summary[summary["city"] == city]
     slope, intercept = np.polyfit(city_data["year"], city_data["temp_mean"], 1)
     return slope * 10
+
+def count_hot_days(data, threshold=30):
+    """Count the days per year in which the maximum temperature is hot.
+
+    A day is 'hot' if its maximum temperature is above the threshold.
+
+    Parameters:
+        data: the cleaned daily table (DataFrame)
+        threshold: temperature in degrees Celsius above which a day is hot (float)
+
+    Returns:
+        A DataFrame with one row per city and year and a 'hot_days' column.
+    """
+    data = data.copy()
+    data["hot_days"] = np.where(data["temp_max"] > threshold, 1, 0)
+    return data.groupby(["city", "year"])["hot_days"].sum().reset_index()
