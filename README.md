@@ -72,5 +72,4 @@ three cities.
 
 ## Libraries
 
-pandas, numpy, matplotlib, requests (see `requirements.txt` for versions).# python-project
-Python project for Coding for Data Science course
+pandas, numpy, matplotlib, requests (see `requirements.txt` for versions). 
