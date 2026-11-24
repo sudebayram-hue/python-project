@@ -11,9 +11,9 @@ Management* course (A.Y. 2026/27).
 
 - downloads daily temperature and precipitation data from the Open-Meteo API
 - cleans the data and computes yearly summaries with pandas
-- computes temperature anomalies (compared with 1961-1990) and the warming
-  trend per decade with numpy
-- plots the anomalies and monthly temperature heatmaps with matplotlib
+- computes temperature anomalies (compared with 1961-1990), the warming
+  trend per decade and the number of hot days per year with numpy
+- plots the anomalies, monthly temperature heatmaps and hot days with matplotlib
 - presents the results in a Jupyter notebook
 
 ## Data source
@@ -23,6 +23,23 @@ Management* course (A.Y. 2026/27).
 station measurements. The CSV files are not stored in this repository: they
 are downloaded by a script (see below).
 
+## Method
+
+1. **Download:** daily mean, maximum and minimum temperature and total precipitation for each city (1940-2025).
+2. **Cleaning:** rename the columns, convert the dates, add year and month, drop days without a mean temperature.
+3. **Yearly summary:** mean temperature and total precipitation for each city and year.
+4. **Anomaly:** yearly mean temperature minus the average of the reference period 1961-1990 of the same city.
+5. **Trend:** a straight line is fitted to the yearly mean temperatures (`numpy.polyfit`); its slope is the warming per decade.
+6. **Hot days:** number of days per year with a maximum temperature above 30 °C.
+
+## Limitations
+
+- The data is model-based reanalysis, not direct station measurements.
+- The trend is a single straight line over 86 years, so it hides that most of the warming happened after 1990.
+- Only three cities are analysed.
+- The 2020s contain only six years (2020-2025).
+- The 30 °C threshold for hot days is a choice; other thresholds give different numbers.
+
 ## Project structure
 
 ```
@@ -30,7 +47,7 @@ python-project/
 ├── src/
 │   ├── data_loader.py       # downloads the data and saves it as CSV
 │   ├── data_processing.py   # loads, cleans and summarises the data
-│   ├── analysis.py          # anomalies and temperature trend (numpy)
+│   ├── analysis.py          # anomalies, trend and hot days (numpy)
 │   └── plots.py             # plotting functions (matplotlib)
 ├── figures/                 # saved plots
 ├── weather_report.ipynb     # presentation notebook
@@ -70,10 +87,11 @@ three cities.
 
 ![Temperature anomaly](figures/anomalies.png)
 
-Hot days (maximum temperature above 30 °C) became much more frequent: in 2011-2025 Milan has about 31 hot days per year, against about 8 in 1961-1990.
+Hot days (maximum temperature above 30 °C) became much more frequent: in
+2011-2025 Milan has about 31 hot days per year, against about 8 in 1961-1990.
 
 ![Hot days](figures/hot_days.png)
 
 ## Libraries
 
-pandas, numpy, matplotlib, requests (see `requirements.txt` for versions). 
+pandas, numpy, matplotlib, requests (see `requirements.txt` for versions).
